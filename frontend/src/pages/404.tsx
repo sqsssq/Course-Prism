@@ -8,7 +8,7 @@ const NotFoundPage = () => {
   return (
     <>
       <Head>
-        <title>404 - SWUFE选课社区</title>
+        <title>404 - 港科大（广州）课程评价</title>
       </Head>
       <Result
         status="404"

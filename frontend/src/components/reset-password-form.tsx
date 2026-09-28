@@ -72,7 +72,7 @@ const ResetPasswordForm = ({
             rules={[AccountRule]}
             initialValue={commonInfo?.user?.account}
           >
-            <Input suffix="@smail.swufe.edu.cn" placeholder="学生证号码" />
+            <Input suffix={process.env.NEXT_PUBLIC_EMAIL_ACCOUNT_DOMAIN ? `@${process.env.NEXT_PUBLIC_EMAIL_ACCOUNT_DOMAIN}` : undefined} placeholder="学生账号" />
           </Form.Item>
         )}
       </CommonInfoContext.Consumer>

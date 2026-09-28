@@ -13,9 +13,9 @@ interface SEOHeadProps {
 }
 
 const SEOHead: React.FC<SEOHeadProps> = ({
-  title = 'SWUFE选课社区 - 西南财经大学课程点评与经验分享',
-  description = 'SWUFE选课社区为西南财经大学学生提供课程点评、选课建议和学习经验分享平台，帮助同学们做出更好的选课决策。',
-  keywords = 'SWUFE,选课社区,课程点评,西南财经大学,西南财大,选课指南,课程评价',
+  title = '港科大（广州）课程评价',
+  description = '由学生维护的课程评价与选课参考平台。',
+  keywords = 'HKUST(GZ),港科大广州,课程评价,选课参考',
   ogTitle,
   ogDescription,
   ogImage = '/favicon.ico',
@@ -23,7 +23,8 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   structuredData
 }) => {
   const router = useRouter();
-  const currentUrl = `https://www.swufe.tech${router.asPath}`;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  const currentUrl = siteUrl ? `${siteUrl}${router.asPath}` : undefined;
   
   return (
     <Head>
@@ -33,19 +34,19 @@ const SEOHead: React.FC<SEOHeadProps> = ({
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       
       {/* Canonical URL */}
-      <link rel="canonical" href={canonical || currentUrl} />
+      {(canonical || currentUrl) && <link rel="canonical" href={canonical || currentUrl} />}
       
       {/* Open Graph / Facebook */}
       <meta property="og:type" content="website" />
-      <meta property="og:url" content={currentUrl} />
+      {currentUrl && <meta property="og:url" content={currentUrl} />}
       <meta property="og:title" content={ogTitle || title} />
       <meta property="og:description" content={ogDescription || description} />
       <meta property="og:image" content={ogImage} />
-      <meta property="og:site_name" content="SWUFE选课社区" />
+      <meta property="og:site_name" content="港科大（广州）课程评价" />
       
       {/* Twitter */}
       <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:url" content={currentUrl} />
+      {currentUrl && <meta property="twitter:url" content={currentUrl} />}
       <meta property="twitter:title" content={ogTitle || title} />
       <meta property="twitter:description" content={ogDescription || description} />
       <meta property="twitter:image" content={ogImage} />

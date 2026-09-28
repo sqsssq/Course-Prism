@@ -108,7 +108,7 @@ const CoursePage = () => {
             ? course.name +
               "（" +
               course.main_teacher.name +
-              "） - SWUFE选课社区"
+              "） - 港科大（广州）课程评价"
             : "加载中"}
         </title>
       </Head>
@@ -134,6 +134,24 @@ const CoursePage = () => {
                 }}
               </CommonInfoContext.Consumer>
             </Col>
+            {course && course.offerings.length > 0 && (
+              <Col xs={24} md={24}>
+                <Card title="开课信息" size="small">
+                  {course.offerings.map((offering, index) => (
+                    <div key={`${offering.semester}-${offering.class_number}-${index}`} style={{ marginBottom: 12 }}>
+                      <strong>{offering.semester} · {offering.section}</strong>
+                      {offering.class_number && `（${offering.class_number}）`}
+                      {offering.meetings.map((meeting, meetingIndex) => (
+                        <div key={meetingIndex} style={{ color: "#64748b" }}>
+                          {[meeting.week_day, meeting.start_time && meeting.end_time ? `${meeting.start_time}–${meeting.end_time}` : null, meeting.location].filter(Boolean).join(" · ")}
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                  <a href="https://sisn.hkust-gz.edu.cn/cq" target="_blank" rel="noopener noreferrer">以教务系统为准</a>
+                </Card>
+              </Col>
+            )}
             {screens.md && (
               <RelatedCard course={course} loading={courseLoading} />
             )}

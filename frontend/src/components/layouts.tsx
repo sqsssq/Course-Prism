@@ -38,7 +38,7 @@ export const BasicLayout = ({ children }: React.PropsWithChildren<{}>) => {
         <Header className="header" style={{ height: 64 }} />
         <Content className="content" style={{ minHeight: 'calc(100vh - 64px)' }} />
         <Footer className="footer" style={{ height: 64, textAlign: 'center' }}>
-          <div>©2026 SWUFE选课社区</div>
+          <div>©2026 港科大（广州）课程评价</div>
         </Footer>
       </Layout>
     );
@@ -72,14 +72,14 @@ export const BasicLayout = ({ children }: React.PropsWithChildren<{}>) => {
                   <rect x="2" y="2" width="24" height="24" rx="7" fill="#2563eb"/>
                   <path d="M8 14.5l4 4 8-9" stroke="white" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-                <span style={{ fontWeight: 700, fontSize: 15, color: "#0f172a" }}>SWUFE<span style={{ fontWeight: 500, color: "#334155" }}>选课社区</span></span>
+                <span style={{ fontWeight: 700, fontSize: 15, color: "#0f172a" }}>港科大（广州）课程评价</span>
               </div>
-              <p style={{ color: "#64748b", margin: 0, maxWidth: screens.xs ? "100%" : 280, lineHeight: 1.6, fontSize: 13.5 }}>由学生维护的西南财经大学课程点评社区。</p>
+              <p style={{ color: "#64748b", margin: 0, maxWidth: screens.xs ? "100%" : 280, lineHeight: 1.6, fontSize: 13.5 }}>独立的港科大（广州）课程评价与选课参考平台。</p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: screens.xs ? "repeat(3, 1fr)" : "1fr 1fr 1fr", gap: screens.xs ? 16 : 48, marginTop: screens.xs ? 0 : 0 }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 <div style={{ fontSize: 13, fontWeight: 600, color: "#0f172a", marginBottom: 4 }}>浏览</div>
-                {[["courses", "课程库"], ["courses", "教师库"], ["/latest", "最新点评"]].map(([href, label]) => (
+                {[["/courses", "课程库"], ["/latest", "最新点评"]].map(([href, label]) => (
                   <Link key={label} href={href} style={{ color: "#64748b", fontSize: screens.xs ? 12.5 : 13.5, textDecoration: "none" }}>{label}</Link>
                 ))}
               </div>
@@ -98,7 +98,7 @@ export const BasicLayout = ({ children }: React.PropsWithChildren<{}>) => {
             </div>
           </div>
           <div className="footer-bottom" style={{ maxWidth: 1200, margin: "40px auto 0", paddingTop: 18, borderTop: "1px solid #e6e8ee", display: "flex", justifyContent: "space-between", fontSize: 12.5, color: "#94a3b8" }}>
-            <span>© 2026 SWUFE 选课社区</span>
+            <span>© 2026 港科大（广州）课程评价</span>
           </div>
         </Footer>
       </Layout>
@@ -109,7 +109,7 @@ export const BasicLayout = ({ children }: React.PropsWithChildren<{}>) => {
 export const LoginLayout = ({ children }: React.PropsWithChildren<{}>) => (
   <Layout className="login-layout">
     <Header className="header">
-      <div className="title">SWUFE选课社区</div>
+      <div className="title">港科大（广州）课程评价</div>
     </Header>
     <Content className="content">{children}</Content>
   </Layout>

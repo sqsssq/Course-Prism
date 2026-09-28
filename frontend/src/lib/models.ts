@@ -60,6 +60,17 @@ export type CourseDetail = {
     count: number;
   }[];
   notification_level: NotificationLevel | null;
+  offerings: {
+    semester: string;
+    section: string;
+    class_number: string;
+    meetings: {
+      week_day: string | null;
+      start_time: string | null;
+      end_time: string | null;
+      location: string | null;
+    }[];
+  }[];
 };
 
 export type CourseFilterItem = {

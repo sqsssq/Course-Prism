@@ -19,7 +19,7 @@ const stripMarkdown = (src: string) =>
 const semesterName = (s: string | Semester) =>
   typeof s === "string" ? s : s?.name ?? "";
 
-const HOT_TAGS = ["高数", "英语", "马原", "统计学", "金融学", "微积分", "概率论", "心理学"];
+const HOT_TAGS = ["AIAA", "AMAT", "DSAA", "LANG", "CNGF", "IPEN"];
 
 /* ── sub-components ── */
 
@@ -101,8 +101,8 @@ const DiscoverPage = () => {
   return (
     <>
       <Head>
-        <title>发现 - SWUFE选课社区</title>
-        <meta name="description" content="搜索西南财大课程，查看真实学生点评" />
+        <title>发现 - 港科大（广州）课程评价</title>
+        <meta name="description" content="搜索港科大（广州）课程，查看学生点评" />
       </Head>
 
       {/* ── Hero ── */}
@@ -181,7 +181,7 @@ const DiscoverPage = () => {
               display: "inline-block",
               flexShrink: 0,
             }}/>
-            西南财经大学 · 选课社区
+            港科大（广州）· 课程评价
           </div>
 
           <h1
@@ -218,7 +218,7 @@ const DiscoverPage = () => {
               maxWidth: 640,
             }}
           >
-            来自 1,000+ 名同学的真实点评，覆盖 SWUFE 全校全部课程
+            浏览公开课程信息，分享你自己的上课体验
           </p>
 
           {/* search bar */}
@@ -283,7 +283,7 @@ const DiscoverPage = () => {
 
             {/* hot tags */}
             <div style={{ marginTop: 18, display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center", alignItems: "center" }}>
-              <span style={{ fontSize: 13, color: "#94a3b8", marginRight: 4 }}>热门</span>
+              <span style={{ fontSize: 13, color: "#94a3b8", marginRight: 4 }}>学科</span>
               {HOT_TAGS.map((tag) => (
                 <button
                   key={tag}
@@ -329,9 +329,9 @@ const DiscoverPage = () => {
             }}
           >
             {[
-              { value: "1,200+", label: "真实点评" },
-              { value: "3,300+", label: "覆盖课程" },
-              { value: "1,900+", label: "授课教师" },
+              { value: "公开", label: "课程信息" },
+              { value: "按学期", label: "同步课程" },
+              { value: "学生", label: "分享体验" },
             ].map(({ value, label }) => (
               <div key={label} style={{ textAlign: "center" }}>
                 <dt style={{
@@ -394,7 +394,7 @@ const DiscoverPage = () => {
           <div>
             <h2 style={{ fontSize: 24, fontWeight: 700, margin: 0, color: "#0f172a", letterSpacing: "-0.3px" }}>最新点评</h2>
             <p style={{ margin: "6px 0 0", fontSize: 14, color: "#64748b" }}>
-              共 {reviews?.count ?? "…"} 条 · 来自真实同学
+              共 {reviews?.count ?? "…"} 条 · 由用户提交
             </p>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: isMobile ? 8 : 12, flexWrap: "wrap" }}>
@@ -442,13 +442,15 @@ const DiscoverPage = () => {
                   <Skeleton active paragraph={{ rows: 2 }} />
                 </div>
               ))
-            : reviews?.results.map((review: Review) => (
+            : reviews?.count === 0
+              ? <div style={{ padding: "36px 22px", textAlign: "center", color: "#64748b" }}>还没有点评。浏览课程后，可以写下第一条评价。</div>
+              : reviews?.results.map((review: Review) => (
                 <ReviewRow key={review.id} review={review} />
               ))}
         </div>
 
         {/* bottom button */}
-        {!loading && reviews && (
+        {!loading && reviews && reviews.count > 9 && (
           <div style={{ marginTop: 24, textAlign: "center" }}>
             <Link href="/latest?page=2" style={{ textDecoration: "none" }}>
               <button style={{

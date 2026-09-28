@@ -15,7 +15,7 @@ const ActivityPage = () => {
         subTitle={`共有${reviews ? reviews.length : 0}条点评`}
       />
       <Head>
-        <title>我的点评 - SWUFE选课社区</title>
+        <title>我的点评 - 港科大（广州）课程评价</title>
       </Head>
       <Card>
         <ReviewList

@@ -1,4 +1,5 @@
 import smtplib
+from django.conf import settings
 
 from authlib.integrations.base_client import OAuthError
 from authlib.jose import jwt
@@ -113,11 +114,14 @@ def auth_email_send_code(request):
     if user_exists:
         return JsonResponse({'detail': '该账号已注册，请直接登录。如忘记密码，请使用忘记密码功能。'}, status=400)
     
+    if not settings.EMAIL_ACCOUNT_DOMAIN:
+        return JsonResponse({'detail': '注册邮箱尚未配置，请联系管理员。'}, status=503)
+
     try:
         code = generate_code()
         auth_store_email_code(account, code)
-        if send_code_email(account + "@smail.swufe.edu.cn", code):
-            return JsonResponse({'detail': '邮件已发送！请查看你的西财学生邮箱收件箱（包括垃圾邮件）。'})
+        if send_code_email(account + "@" + settings.EMAIL_ACCOUNT_DOMAIN, code):
+            return JsonResponse({'detail': '邮件已发送！请查看学生邮箱收件箱（包括垃圾邮件）。'})
     except smtplib.SMTPDataError:
         pass
     return JsonResponse({'detail': '验证码发送失败，请稍后重试。'}, status=500)
@@ -238,11 +242,13 @@ def reset_password_send_code(request):
     account = account.strip().lower()
     if request.user.username != hash_username(account):
         return JsonResponse({'detail': '请输入本账号对应的邮箱！'}, status=400)
+    if not settings.EMAIL_ACCOUNT_DOMAIN:
+        return JsonResponse({'detail': '注册邮箱尚未配置，请联系管理员。'}, status=503)
     try:
         code = generate_code()
         reset_store_email_code(account, code)
-        if reset_send_code_email(account + "@smail.swufe.edu.cn", code):
-            return JsonResponse({'detail': '邮件已发送！请查看你的西财学生邮箱收件箱（包括垃圾邮件）。'})
+        if reset_send_code_email(account + "@" + settings.EMAIL_ACCOUNT_DOMAIN, code):
+            return JsonResponse({'detail': '邮件已发送！请查看学生邮箱收件箱（包括垃圾邮件）。'})
     except smtplib.SMTPDataError:
         pass
     return JsonResponse({'detail': '验证码发送失败，请稍后重试。'}, status=500)

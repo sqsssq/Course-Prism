@@ -16,7 +16,7 @@ const ReportPage = () => {
     <>
       <PageHeader title="我的反馈" onBack={() => history.back()} />
       <Head>
-        <title>反馈 - SWUFE选课社区</title>
+        <title>反馈 - 港科大（广州）课程评价</title>
       </Head>
       <Card
         title={`共有${reports ? reports.length : 0}条反馈`}

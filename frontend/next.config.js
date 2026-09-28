@@ -5,9 +5,8 @@ const nextConfig = {
   reactStrictMode: true,
   
   // Performance optimizations
-  swcMinify: true,
   images: {
-    domains: ['localhost', 'www.swufe.tech', 'swufe.tech', 'class.swufe.chat'],
+    remotePatterns: [],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,
   },

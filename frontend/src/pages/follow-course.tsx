@@ -30,7 +30,7 @@ const FollowCoursePage = () => {
     <>
       <PageHeader title="关注的课程"></PageHeader>
       <Head>
-        <title>关注的课程 - SWUFE选课社区</title>
+        <title>关注的课程 - 港科大（广州）课程评价</title>
       </Head>
       <Card title={`共有${courses ? courses.count : 0}门课`}>
         <CourseList

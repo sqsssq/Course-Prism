@@ -52,7 +52,7 @@ const EmailLoginForm = ({
       <Form.Item name="account" rules={[AccountRule]}>
         <Input
           id="email-code-account"
-          suffix="@smail.swufe.edu.cn"
+          suffix={process.env.NEXT_PUBLIC_EMAIL_ACCOUNT_DOMAIN ? `@${process.env.NEXT_PUBLIC_EMAIL_ACCOUNT_DOMAIN}` : undefined}
           placeholder="学生证号码"
         />
       </Form.Item>

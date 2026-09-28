@@ -68,7 +68,7 @@ const FollowReviewPage = () => {
         }
       ></PageHeader>
       <Head>
-        <title>关注 - SWUFE选课社区</title>
+        <title>关注 - 港科大（广州）课程评价</title>
       </Head>
       <Card>
         <ReviewList

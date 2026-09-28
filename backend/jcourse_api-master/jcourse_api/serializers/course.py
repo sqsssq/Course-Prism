@@ -1,12 +1,20 @@
 from django.db.models import F
 from rest_framework import serializers
 
-from jcourse_api.models import Course, Department, Category, CourseNotificationLevel
+from jcourse_api.models import Course, CourseOffering, Department, Category, CourseNotificationLevel
 from jcourse_api.serializers.base import TeacherSerializer
 
 
 def get_course_rating(obj: Course):
     return {'count': obj.review_count, 'avg': obj.review_avg}
+
+
+class CourseOfferingSerializer(serializers.ModelSerializer):
+    semester = serializers.SlugRelatedField(read_only=True, slug_field='name')
+
+    class Meta:
+        model = CourseOffering
+        fields = ['semester', 'section', 'class_number', 'meetings']
 
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -28,6 +36,7 @@ class CourseSerializer(serializers.ModelSerializer):
     related_teachers = serializers.SerializerMethodField()
     related_courses = serializers.SerializerMethodField()
     notification_level = serializers.SerializerMethodField()
+    offerings = CourseOfferingSerializer(many=True, read_only=True)
 
     class Meta:
         model = Course

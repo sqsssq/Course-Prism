@@ -82,6 +82,26 @@ class Course(models.Model):
     category_names.short_description = '类别'
 
 
+class CourseOffering(models.Model):
+    """A SIS teaching section in a specific semester."""
+
+    source_class_id = models.CharField(max_length=64)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='offerings')
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE, related_name='offerings')
+    section = models.CharField(max_length=32)
+    class_number = models.CharField(max_length=32, blank=True)
+    meetings = models.JSONField(default=list, blank=True)
+    last_synced_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-semester__name', 'course__code', 'section']
+        constraints = [models.UniqueConstraint(fields=['source_class_id', 'course'], name='unique_sis_offering')]
+        indexes = [models.Index(fields=['semester', 'course'], name='jc_off_sem_course_idx')]
+
+    def __str__(self):
+        return f'{self.semester} {self.course.code} {self.section}'
+
+
 class TeacherEvaluation(models.Model):
     """教师评价模型"""
     class Meta:

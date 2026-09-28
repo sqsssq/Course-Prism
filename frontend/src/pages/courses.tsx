@@ -1,7 +1,6 @@
 import { Card, Col, Input, Row } from "antd";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useRef } from "react";
 
 import CourseFilterCard, { FilterSelected } from "@/components/course-filter-card";
 import CourseList from "@/components/course-list";
@@ -21,16 +20,6 @@ const RATING_LABEL: Record<string, string> = {
 const CoursesPage = () => {
   const router = useRouter();
   const { page, size, q, categories, departments, credit, min_rating, feature, onlyhasreviews } = router.query;
-
-  // On true first load (no params at all), default sort to "最新点评"
-  const defaultApplied = useRef(false);
-  useEffect(() => {
-    if (!router.isReady || defaultApplied.current) return;
-    defaultApplied.current = true;
-    if (!q && !onlyhasreviews && !departments && !categories && !credit && !min_rating && !feature) {
-      router.replace({ query: { onlyhasreviews: "latest" } }, undefined, { shallow: true });
-    }
-  }, [router.isReady]);
 
   const pagination: Pagination = {
     page: page ? parseInt(page as string) : 1,
@@ -104,7 +93,7 @@ const CoursesPage = () => {
     <>
       <PageHeader title="课程库" />
       <Head>
-        <title>{q ? `搜索 ${q} - SWUFE选课社区` : "课程库 - SWUFE选课社区"}</title>
+        <title>{q ? `搜索 ${q} - 港科大（广州）课程评价` : "课程库 - 港科大（广州）课程评价"}</title>
       </Head>
 
       <Input.Search
@@ -164,10 +153,10 @@ const CoursesPage = () => {
                     onFilterChange("onlyhasreviews", v === "" ? null : v);
                   }}
                 >
+                  <option value="">全部课程</option>
                   <option value="latest">最新点评</option>
                   <option value="avg">评分最高</option>
                   <option value="count">点评最多</option>
-                  <option value="">全部课程</option>
                 </select>
               </div>
           </div>

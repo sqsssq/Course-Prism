@@ -10,6 +10,7 @@ import { authEmailSendCode, authEmailRegister, postLogin } from "@/services/user
 const { Title, Text } = Typography;
 
 const RegisterPage = () => {
+  const emailDomain = process.env.NEXT_PUBLIC_EMAIL_ACCOUNT_DOMAIN;
   const router = useRouter();
   const [form] = Form.useForm();
   const [time, setTime] = useState<number>(0);
@@ -68,6 +69,10 @@ const RegisterPage = () => {
     };
   }, [time]);
 
+  if (!emailDomain) {
+    return <div style={{ maxWidth: 480, margin: "80px auto", padding: 24 }}>学生邮箱注册尚未开放。请联系管理员获取账户，或先浏览课程评价。</div>;
+  }
+
   return (
     <div style={{ 
       minHeight: "100vh", 
@@ -78,7 +83,7 @@ const RegisterPage = () => {
       padding: isMobile ? "16px" : "20px"
     }}>
       <Head>
-        <title>注册 - SWUFE选课社区</title>
+        <title>注册 - 港科大（广州）课程评价</title>
       </Head>
       <Card 
         style={{ 
@@ -89,10 +94,10 @@ const RegisterPage = () => {
       >
         <div style={{ textAlign: "center", marginBottom: 24 }}>
           <Title level={3} style={{ marginBottom: 8 }}>
-            注册 SWUFE选课社区
+            注册课程评价平台
           </Title>
           <Text type="secondary">
-            使用西南财经大学学生邮箱注册账户
+            使用学校邮箱注册账户
           </Text>
         </div>
 
@@ -110,23 +115,11 @@ const RegisterPage = () => {
             >
               <Input
                 placeholder="学生证号码"
-                suffix="@smail.swufe.edu.cn"
+                suffix={`@${emailDomain}`}
                 disabled={isRegistered}
               />
             </Form.Item>
 
-            <div style={{ textAlign: "center", marginBottom: 16 }}>
-              <Text type="secondary" style={{ fontSize: 12 }}>
-                <a 
-                  href="https://info.swufe.edu.cn/info/1016/1006.htm" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  style={{ color: '#1890ff', textDecoration: 'none' }}
-                >
-                  没有使用过SWUFE学生邮箱？
-                </a>
-              </Text>
-            </div>
 
             <Form.Item
               label="邮箱验证码"

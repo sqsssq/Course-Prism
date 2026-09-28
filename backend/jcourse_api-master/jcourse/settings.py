@@ -29,12 +29,12 @@ if not SECRET_KEY:
     raise ValueError("SECRET_KEY environment variable must be set")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.environ.get('DEBUG', False))
+DEBUG = os.environ.get('DEBUG', 'False').lower() in ('1', 'true', 'yes')
 
-ALLOWED_HOSTS = ['101.36.111.202', '178.128.51.180', 'www.swufe.tech', 'swufe.tech', 'class.swufe.chat']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'backend']
 if os.environ.get('ALLOWED_HOSTS', None):
     ALLOWED_HOSTS += os.environ.get('ALLOWED_HOSTS').split(',')
-CSRF_TRUSTED_ORIGINS = ['http://178.128.51.180:3000', 'http://localhost:3000', 'http://www.swufe.tech', 'https://www.swufe.tech', 'http://swufe.tech', 'https://swufe.tech', 'http://class.swufe.chat', 'https://class.swufe.chat']
+CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
 if os.environ.get('CSRF_TRUSTED_ORIGINS', None):
     CSRF_TRUSTED_ORIGINS += os.environ.get('CSRF_TRUSTED_ORIGINS').split(',')
 # Application definition
@@ -119,6 +119,8 @@ DATABASES = {
         },
     }
 }
+if os.environ.get('USE_SQLITE', 'False').lower() in ('1', 'true', 'yes'):
+    DATABASES = {'default': {'ENGINE': 'django.db.backends.sqlite3', 'NAME': BASE_DIR / 'db.sqlite3'}}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -209,26 +211,19 @@ if DEBUG:
         'jcourse.renderers.BrowsableAPIRendererWithoutForms',
     )
 
-CORS_ORIGIN_WHITELIST = [
+CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    'http://localhost:3001',
-    'http://101.36.111.202:3000',
-    'http://101.36.111.202:3001',
-    'http://178.128.51.180:3000',
-    'http://178.128.51.180:3001',
-    'http://www.swufe.tech',
-    'https://www.swufe.tech',
-    'http://swufe.tech',
-    'https://swufe.tech',
 ]
+if os.environ.get('CORS_ALLOWED_ORIGINS'):
+    CORS_ALLOWED_ORIGINS += os.environ['CORS_ALLOWED_ORIGINS'].split(',')
 
 CORS_ALLOW_CREDENTIALS = True
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
-SESSION_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', str(not DEBUG)).lower() in ('1', 'true', 'yes')
 SESSION_COOKIE_HTTPONLY = True
-CSRF_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = os.environ.get('CSRF_COOKIE_SECURE', str(not DEBUG)).lower() in ('1', 'true', 'yes')
 
 HASH_SALT = os.environ.get('HASH_SALT', '')
 
@@ -237,7 +232,8 @@ EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 465))
 
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'admin@example.com')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
-EMAIL_USE_SSL = bool(os.environ.get('EMAIL_USE_SSL'))
+EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', 'False').lower() in ('1', 'true', 'yes')
+EMAIL_ACCOUNT_DOMAIN = os.environ.get('EMAIL_ACCOUNT_DOMAIN', '')
 DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER', EMAIL_HOST_USER)
 ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', EMAIL_HOST_USER)
 
@@ -342,9 +338,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 HUEY = {
-    'huey_class': 'huey.RedisHuey',  # Huey implementation to use.
-    'name': DATABASES['default']['NAME'],  # Use db name for huey.
-    'immediate': DEBUG or TESTING,  # If DEBUG=True, run synchronously.
+    'huey_class': 'huey.RedisHuey' if REDIS_HOST else 'huey.MemoryHuey',
+    'name': str(DATABASES['default']['NAME']),
+    'immediate': DEBUG or TESTING or not REDIS_HOST,
     'immediate_use_memory': True,
     'connection': {
         'host': REDIS_HOST,

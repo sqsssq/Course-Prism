@@ -9,7 +9,7 @@ const AboutPage = () => {
     <>
       <PageHeader title="关于" onBack={() => history.back()} />
       <Head>
-        <title>关于 - SWUFE选课社区</title>
+        <title>关于 - 港科大（广州）课程评价</title>
       </Head>
       <Card>
         <AboutCard />

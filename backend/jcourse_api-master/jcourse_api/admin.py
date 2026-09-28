@@ -44,6 +44,13 @@ class CourseAdmin(ImportExportModelAdmin):
     readonly_fields = ('review_count', 'review_avg')
 
 
+@admin.register(CourseOffering)
+class CourseOfferingAdmin(admin.ModelAdmin):
+    list_display = ('source_class_id', 'course', 'semester', 'section', 'last_synced_at')
+    list_filter = ('semester',)
+    search_fields = ('source_class_id', 'course__code', 'course__name')
+
+
 class TeacherResource(resources.ModelResource):
     department = fields.Field(attribute='department', widget=ForeignKeyWidget(Department, 'name'))
     last_semester = fields.Field(attribute='last_semester', widget=ForeignKeyWidget(Semester, 'name'))

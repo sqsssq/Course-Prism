@@ -26,7 +26,7 @@ const PointPage = () => {
     <>
       <PageHeader title="社区积分"></PageHeader>
       <Head>
-        <title>社区积分 - SWUFE选课社区</title>
+        <title>社区积分 - 港科大（广州）课程评价</title>
       </Head>
       <Card>
         <Typography>

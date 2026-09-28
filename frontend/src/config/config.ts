@@ -6,8 +6,7 @@ const Config = {
   JACCOUNT_CLIENT_ID: "",
   JACCOUNT_LOGIN_RETURI: "/login",
   JACCOUNT_SYNC_RETURI: "/sync",
-  BAIDU_TONGJI_CODE: "bffe2d130d940fce5a0876ee2dc36b92",
-  CONTACT_EMAIL: "harrycn@88.com",
+  CONTACT_EMAIL: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "",
 };
 
 export default Config;

@@ -26,6 +26,7 @@ const { Text } = Typography;
 const LOGIN_FORM_HEIGHT = "184px";
 
 const LoginPage = () => {
+  const emailRegistrationEnabled = Boolean(process.env.NEXT_PUBLIC_EMAIL_ACCOUNT_DOMAIN);
   const router = useRouter();
   const [modal, contextHolder] = Modal.useModal();
   const { code, state, next } = router.query;
@@ -112,7 +113,7 @@ const LoginPage = () => {
         </div>
       ),
     },*/
-    {
+    ...(emailRegistrationEnabled ? [{
       label: "邮箱登录",
       key: "email-password",
       children: (
@@ -120,7 +121,7 @@ const LoginPage = () => {
           <EmailPasswordLoginForm onFinish={onEmailPasswordLoginFinish} />
         </div>
       ),
-    },
+    }] : []),
     /*{
       label: "邮箱验证登录",
       key: "email",
@@ -152,22 +153,22 @@ const LoginPage = () => {
       maxWidth: isMobile ? "100%" : "400px"
     }}>
       <Head>
-        <title>登录 - SWUFE选课社区</title>
+        <title>登录 - 港科大（广州）课程评价</title>
       </Head>
-      <Tabs defaultActiveKey="email-password" centered items={tabItems}></Tabs>
+      <Tabs defaultActiveKey={emailRegistrationEnabled ? "email-password" : "account"} centered items={tabItems}></Tabs>
       <div style={{ textAlign: "center", marginTop: 16 }}>
         <Text>
           登录即表示您已阅读并同意本站
           <Typography.Link onClick={() => info()}>基本原则</Typography.Link>。{contextHolder}
         </Text>
-        <div style={{ marginTop: 12 }}>
+        {emailRegistrationEnabled && <div style={{ marginTop: 12 }}>
           <Text type="secondary">
             还没有账户？
             <Link href="/register" style={{ marginLeft: 4 }}>
               立即注册
             </Link>
           </Text>
-        </div>
+        </div>}
         <div style={{ marginTop: 16 }}>
           <Link href="/latest" style={{ 
             color: '#1890ff', 

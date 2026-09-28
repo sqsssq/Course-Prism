@@ -11,7 +11,7 @@ const PreferencePage = () => {
     <>
       <PageHeader title="偏好设置" onBack={() => history.back()} />
       <Head>
-        <title>偏好设置 - SWUFE选课社区</title>
+        <title>偏好设置 - 港科大（广州）课程评价</title>
       </Head>
       <Card title="登录安全">
         <Button onClick={() => setResetModalOpen(true)}>重置密码</Button>

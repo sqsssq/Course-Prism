@@ -197,7 +197,7 @@ const WriteReviewPage = () => {
     <>
       <PageHeader title="写点评" onBack={() => history.back()}></PageHeader>
       <Head>
-        <title>写点评 - SWUFE选课社区</title>
+        <title>写点评 - 港科大（广州）课程评价</title>
       </Head>
       <Card style={{ margin: isMobile ? '0 8px' : undefined }}>
         <Form
@@ -256,8 +256,7 @@ const WriteReviewPage = () => {
             rules={[{ required: true, message: "请选择上这门课的学期" }]}
             help={
               <Text type="secondary">
-                2021-2022 代表 2021-2022 学年度（2021.9-2022.8）。
-                1代表秋季学期，2代表春季学期，3代表夏季学期/小学期。
+                请选择实际上过这门课的学期。课程与学期信息以教务系统为准。
               </Text>
             }
           >

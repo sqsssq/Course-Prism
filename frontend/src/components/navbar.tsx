@@ -5,7 +5,6 @@ import {
   ProfileOutlined,
   SearchOutlined,
   SettingOutlined,
-  SyncOutlined,
   UserOutlined,
   MenuOutlined,
 } from "@ant-design/icons";
@@ -52,14 +51,13 @@ const NavBar = ({ user }: { user?: User }) => {
     },
     { key: "/point", label: "社区积分", icon: <DollarOutlined /> },
     { key: "/activity", label: "我的点评", icon: <ProfileOutlined /> },
-    { key: "/sync", label: "同步课表", icon: <SyncOutlined /> },
     { key: "/preference", label: "偏好设置", icon: <SettingOutlined /> },
     { type: "divider", key: "divider" },
     { key: "logout", label: "登出", icon: <LogoutOutlined />, danger: true },
   ] : [
     // 未登录用户菜单
     { key: "login", label: "登入", icon: <LoginOutlined /> },
-    { key: "/register", label: "注册", icon: <UserOutlined /> },
+    ...(process.env.NEXT_PUBLIC_EMAIL_ACCOUNT_DOMAIN ? [{ key: "/register", label: "注册", icon: <UserOutlined /> }] : []),
   ];
 
   const navItems = [
@@ -89,7 +87,7 @@ const NavBar = ({ user }: { user?: User }) => {
       <Row className="navbar" align="middle">
         <Col flex="auto">
           <Link href="/latest" className="title">
-            SWUFE选课社区
+            港科大（广州）课程评价
           </Link>
         </Col>
 

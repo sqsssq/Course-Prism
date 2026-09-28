@@ -25,6 +25,7 @@ db.sqlite3-journal
 .env
 .env.local
 .env.*.local
+.preview-login
 
 # Node.js
 node_modules/
@@ -85,6 +86,5 @@ htmlcov/
 # Python virtual environment
 backend/jcourse_api-master/venv/
 backend/jcourse_api-master/.venv/
-
 
 

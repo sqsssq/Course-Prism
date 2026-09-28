@@ -1,0 +1,57 @@
+services:
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: course_review
+      MYSQL_USER: course_review
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Set MYSQL_PASSWORD in .env}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Set MYSQL_ROOT_PASSWORD in .env}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  backend:
+    build: ./backend/jcourse_api-master
+    environment:
+      SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY in .env}
+      DEBUG: "False"
+      MYSQL_DB: course_review
+      MYSQL_USER: course_review
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Set MYSQL_PASSWORD in .env}
+      MYSQL_HOST: db
+      MYSQL_PORT: "3306"
+      ALLOWED_HOSTS: "backend,localhost,127.0.0.1"
+      CSRF_TRUSTED_ORIGINS: "http://localhost:3000"
+      HASH_SALT: ${HASH_SALT:?Set HASH_SALT in .env}
+      EMAIL_ACCOUNT_DOMAIN: ${EMAIL_ACCOUNT_DOMAIN:-}
+      EMAIL_HOST: ${EMAIL_HOST:-}
+      EMAIL_HOST_USER: ${EMAIL_HOST_USER:-}
+      EMAIL_HOST_PASSWORD: ${EMAIL_HOST_PASSWORD:-}
+      EMAIL_PORT: ${EMAIL_PORT:-465}
+      EMAIL_USE_SSL: ${EMAIL_USE_SSL:-True}
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8000:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        REMOTE_URL: http://backend:8000
+        NEXT_PUBLIC_EMAIL_ACCOUNT_DOMAIN: ${EMAIL_ACCOUNT_DOMAIN:-}
+        NEXT_PUBLIC_SITE_URL: ${SITE_URL:-http://localhost:3000}
+    environment:
+      REMOTE_URL: http://backend:8000
+    depends_on:
+      - backend
+    ports:
+      - "127.0.0.1:3000:3000"
+
+volumes:
+  mysql_data:

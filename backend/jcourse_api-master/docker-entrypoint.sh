@@ -1,11 +1,11 @@
 #!/bin/bash
 set -e
 
-echo "Waiting for PostgreSQL..."
-while ! pg_isready -h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER; do
+echo "Waiting for MySQL..."
+while ! mysqladmin ping -h "${MYSQL_HOST:-db}" -P "${MYSQL_PORT:-3306}" --silent; do
   sleep 1
 done
-echo "PostgreSQL is ready!"
+echo "MySQL is ready!"
 
 echo "Running database migrations..."
 python manage.py migrate --noinput
